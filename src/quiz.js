@@ -20,38 +20,42 @@ class Quiz {
     this.currentQuestionIndex++;
   }
   // 4. shuffleQuestions()
-  shuffleQuestions(array) {
+  shuffleQuestions() {
     let oldElement;
-    for (let i = array.length - 1; i > 0; i--) {
+    for (let i = this.questions.length - 1; i > 0; i--) {
       let rand = Math.floor(Math.random() * (i + 1));
-      oldElement = array[i];
-      array[i] = array[rand];
-      array[rand] = oldElement;
+      oldElement = this.questions[i];
+      this.questions[i] = this.questions[rand];
+      this.questions[rand] = oldElement;
     }
-    return array;
-  }
+    return this.questions;
+}
   // 5. checkAnswer(answer)
   checkAnswer(answer) {
-    return this.correctAnswers++
+    const currentQuestion = this.questions[this.currentQuestionIndex];
+
+    if (answer === currentQuestion.answer){
+    this.correctAnswers++}
   }
+
   // 6. hasEnded()
   hasEnded() {
-    if (this.currentQuestionIndex = this.questions.length) {
+    if (this.currentQuestionIndex === this.questions.length) {
         return true
     } else if (this.currentQuestionIndex < this.questions.length) {
     return false
   }
-}
+  }
 }
 
 /* Fisher Yates Shuffle :
 
-const shuffle = (array) {
+const shuffle = (this.questions) {
   let oldElement;
-  for (let i = array.length - 1; i > 0; i--) {
+  for (let i = this.questions.length - 1; i > 0; i--) {
     let rand = Math.floor(Math.random() * (i + 1));
-    oldElement = array[i];
-    array[i] = array[rand];
-    array[rand] = oldElement;
+    oldElement = this.questions[i];
+    this.questions[i] = this.questions[rand];
+    this.questions[rand] = oldElement;
   }
-  return array;} */
+  return this.questions;} */
