@@ -62,18 +62,47 @@ document.addEventListener("DOMContentLoaded", () => {
     .padStart(2, "0");
   const seconds = (quiz.timeRemaining % 60).toString().padStart(2, "0");
 
+  console.log(typeof minutes, typeof seconds)
+
   // Display the time remaining in the time remaining container
-  const timeRemainingContainer = document.getElementById("timeRemaining");
-  timeRemainingContainer.innerText = `${minutes}:${seconds}`;
+  const timeRemainingContainer = document.querySelector("#timeRemaining");
+  timeRemainingContainer.textContent = `${minutes}:${seconds}`;
 
   // Show first question
   showQuestion();
 
   /************  TIMER  ************/
+  //const timerDisplay = document.querySelector(".putaindespan");
+  //timerDisplay.style.color = "red";
 
-  let timer;
 
-  /************  EVENT LISTENERS  ************/
+  function startTimer(duration){
+    timer = setInterval(() => {
+      duration--;
+      quiz.timeRemaining = duration;
+      const minutes = Math.floor(quiz.timeRemaining / 60)
+      .toString()
+      .padStart(2, "0");
+      const seconds = (quiz.timeRemaining % 60).toString().padStart(2, "0");
+      timeRemainingContainer.textContent = `${minutes}:${seconds}`;
+      if(duration <= 0) {
+        clearInterval(timer);
+        showResults();
+      }
+
+    }, 1000);
+  }
+  startTimer(quizDuration);
+
+
+  /*startTimer();
+ timer = document.querySelector("#timeRemaining");
+  window.addEventListener('load', function(){
+    startTimer();
+  })*/
+
+
+   /************  EVENT LISTENERS  ************/
 
   nextButton.addEventListener("click", nextButtonHandler);
 
@@ -194,5 +223,36 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 3. Update the result container (div#result) inner text to show the number of correct answers out of total questions
     resultContainer.innerText = `You scored ${quiz.correctAnswers} out of ${quiz.questions.length} correct answers!`; // This value is hardcoded as a placeholder
+    
+    clearInterval(timer);
+  
   }
+
+  function resetGame(){
+    endView.style.display = "none";
+    quizView.style.display = "flex";
+    quiz.currentQuestionIndex = 0;
+    quiz.correctAnswers = 0;
+    quiz.shuffleQuestions();
+    showQuestion();
+    quiz.timeRemaining = quizDuration;
+    startTimer();
+    //restartCount();
+  }
+
+  const restartButton = document.querySelector("#restartButton");
+  restartButton.addEventListener('click', function(){
+    resetGame();
+  })
+
+  function restartCount(){
+    const minutes = Math.floor(quiz.timeRemaining / 60).toString().padStart(2, "0");
+    const seconds = (quiz.timeRemaining % 60).toString().padStart(2, "0");
+    const timeRemainingContainer = document.querySelector("#timeRemaining");
+    timeRemainingContainer.textContent = `${minutes}:${seconds}`;
+    timeRemainingContainer;
+  }
+
+
 });
+
