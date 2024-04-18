@@ -62,7 +62,6 @@ document.addEventListener("DOMContentLoaded", () => {
     .padStart(2, "0");
   const seconds = (quiz.timeRemaining % 60).toString().padStart(2, "0");
 
-  console.log(typeof minutes, typeof seconds)
 
   // Display the time remaining in the time remaining container
   const timeRemainingContainer = document.querySelector("#timeRemaining");
@@ -75,8 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
   //const timerDisplay = document.querySelector(".putaindespan");
   //timerDisplay.style.color = "red";
 
-
-  function startTimer(duration){
+  function startTimer(duration) {
     timer = setInterval(() => {
       duration--;
       quiz.timeRemaining = duration;
@@ -85,15 +83,13 @@ document.addEventListener("DOMContentLoaded", () => {
       .padStart(2, "0");
       const seconds = (quiz.timeRemaining % 60).toString().padStart(2, "0");
       timeRemainingContainer.textContent = `${minutes}:${seconds}`;
-      if(duration <= 0) {
+      if (duration <= 0) {
         clearInterval(timer);
         showResults();
       }
-
     }, 1000);
   }
   startTimer(quizDuration);
-
 
   /*startTimer();
  timer = document.querySelector("#timeRemaining");
@@ -101,8 +97,7 @@ document.addEventListener("DOMContentLoaded", () => {
     startTimer();
   })*/
 
-
-   /************  EVENT LISTENERS  ************/
+  /************  EVENT LISTENERS  ************/
 
   nextButton.addEventListener("click", nextButtonHandler);
 
@@ -154,53 +149,52 @@ document.addEventListener("DOMContentLoaded", () => {
     // For each choice create a new radio input with a label, and append it to the choice container.
     // Each choice should be displayed as a radio input element with a label:
     /* 
-          <input type="radio" name="choice" value="CHOICE TEXT HERE">
-          <label>CHOICE TEXT HERE</label>
-        <br>
-      */
-    // Hint 1: You can use the `document.createElement()` method to create a new element.
-    // Hint 2: You can use the `element.type`, `element.name`, and `element.value` properties to set the type, name, and value of an element.
-    // Hint 3: You can use the `element.appendChild()` method to append an element to the choices container.
-    // Hint 4: You can use the `element.innerText` property to set the inner text of an element.
-
-    for (const choice of question.choices) {
-      const inputEl = document.createElement("input");
-      inputEl.type = "radio";
-      inputEl.name = "choice";
-      inputEl.value = choice;
-      const labelEl = document.createElement("label");
-      labelEl.innerText = choice;
-
-      const choiceEl = document.createElement("li");
-
-      choiceEl.appendChild(inputEl);
-      choiceEl.appendChild(labelEl);
-
-      choiceContainer.appendChild(choiceEl);
+    <input type="radio" name="choice" value="CHOICE TEXT HERE">
+    <label>CHOICE TEXT HERE</label>
+    <br>
+    */
+   // Hint 1: You can use the `document.createElement()` method to create a new element.
+   // Hint 2: You can use the `element.type`, `element.name`, and `element.value` properties to set the type, name, and value of an element.
+   // Hint 3: You can use the `element.appendChild()` method to append an element to the choices container.
+   // Hint 4: You can use the `element.innerText` property to set the inner text of an element.
+   
+   for (const choice of question.choices) {
+     const inputEl = document.createElement("input");
+     inputEl.type = "radio";
+     inputEl.name = "choice";
+     inputEl.value = choice;
+     const labelEl = document.createElement("label");
+     labelEl.innerText = choice;
+     
+     const choiceEl = document.createElement("li");
+     
+     choiceEl.appendChild(inputEl);
+     choiceEl.appendChild(labelEl);
+     
+     choiceContainer.appendChild(choiceEl);
     }
   }
   function nextButtonHandler() {
     let selectedAnswer; // A variable to store the selected answer value
-
+    
     // YOUR CODE HERE:
     //
     // 1. Get all the choice elements. You can use the `document.querySelectorAll()` method.
-
+    
     const allChoices = document.querySelectorAll("input[name='choice']");
-    console.log(allChoices);
-
+    
     // 2. Loop through all the choice elements and check which one is selected
     // Hint: Radio input elements have a property `.checked` (e.g., `element.checked`).
     //  When a radio input gets selected the `.checked` property will be set to true.
     //  You can use check which choice was selected by checking if the `.checked` property is true.
-
+    
     for (const choice of allChoices) {
       if (choice.checked) {
         selectedAnswer = choice.value;
         break;
       }
     }
-
+    
     if (selectedAnswer) {
       quiz.checkAnswer(selectedAnswer);
       quiz.moveToNextQuestion();
@@ -217,18 +211,17 @@ document.addEventListener("DOMContentLoaded", () => {
     //
     // 1. Hide the quiz view (div#quizView)
     quizView.style.display = "none";
-
+    
     // 2. Show the end view (div#endView)
     endView.style.display = "flex";
-
+    
     // 3. Update the result container (div#result) inner text to show the number of correct answers out of total questions
     resultContainer.innerText = `You scored ${quiz.correctAnswers} out of ${quiz.questions.length} correct answers!`; // This value is hardcoded as a placeholder
     
     clearInterval(timer);
-  
   }
-
-  function resetGame(){
+  
+  function resetGame() {
     endView.style.display = "none";
     quizView.style.display = "flex";
     quiz.currentQuestionIndex = 0;
@@ -236,23 +229,21 @@ document.addEventListener("DOMContentLoaded", () => {
     quiz.shuffleQuestions();
     showQuestion();
     quiz.timeRemaining = quizDuration;
-    startTimer();
-    //restartCount();
+    startTimer(quizDuration);
   }
-
+  
   const restartButton = document.querySelector("#restartButton");
-  restartButton.addEventListener('click', function(){
+  restartButton.addEventListener("click", function () {
     resetGame();
-  })
+  });
 
-  function restartCount(){
-    const minutes = Math.floor(quiz.timeRemaining / 60).toString().padStart(2, "0");
+  function restartCount() {
+    const minutes = Math.floor(quiz.timeRemaining / 60)
+      .toString()
+      .padStart(2, "0");
     const seconds = (quiz.timeRemaining % 60).toString().padStart(2, "0");
     const timeRemainingContainer = document.querySelector("#timeRemaining");
     timeRemainingContainer.textContent = `${minutes}:${seconds}`;
     timeRemainingContainer;
   }
-
-
 });
-
