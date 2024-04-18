@@ -33,7 +33,8 @@ class Quiz {
   // 5. checkAnswer(answer)
   checkAnswer(answer) {
     const currentQuestion = this.questions[this.currentQuestionIndex];
-
+    console.log(answer)
+    console.log(currentQuestion.answer)
     if (answer === currentQuestion.answer){
     this.correctAnswers++}
   }

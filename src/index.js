@@ -151,7 +151,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
   function nextButtonHandler() {
-    let selectedAnswer = null ; // A variable to store the selected answer value
+    let selectedAnswer; // A variable to store the selected answer value
 
     // YOUR CODE HERE:
     //
@@ -165,7 +165,7 @@ document.addEventListener("DOMContentLoaded", () => {
     //  When a radio input gets selected the `.checked` property will be set to true.
     //  You can use check which choice was selected by checking if the `.checked` property is true.
 
-    for (const choice in allChoices) {
+    for (const choice of allChoices) {
       if (choice.checked) {
         selectedAnswer = choice.value;
         break;
@@ -175,7 +175,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (selectedAnswer) {
       quiz.checkAnswer(selectedAnswer);
       quiz.moveToNextQuestion();
-      showQuestion;
+      showQuestion();
     }
     // 3. If an answer is selected (`selectedAnswer`), check if it is correct and move to the next question
     // Check if selected answer is correct by calling the quiz method `checkAnswer()` with the selected answer.
